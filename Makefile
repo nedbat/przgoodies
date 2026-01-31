@@ -1,4 +1,4 @@
-SLUG = blank
+SLUG = goodies
 
 SLIDE_HTML = $(SLUG).html
 ZIP_FILE = $(SLUG).zip

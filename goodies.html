@@ -1,14 +1,9 @@
 <!DOCTYPE html> <!-- vim: set foldmethod=marker foldlevel=0 cc=60 :-->
 <!--
-Values to change when making a new prez:
-
-    blank.html -> name of this file.
-    shorturl -> bit.ly short url, or remove those lines.
-
 Process this file with cog:
 
     $ pip install -r requirements.txt
-    $ python -m cogapp -c -r blank.html
+    $ python -m cogapp -c -r goodies.html
 
 -->
 <html>
@@ -19,7 +14,7 @@ from cogutil import *
 ]]]-->
 <!--[[[end]]] (sum: 1B2M2Y8Asg)-->
 <head>
-    <title>Prez Title</title>
+    <title>Goodies</title>
     <meta charset="utf-8" />
 
     <!-- *** Includes {{{ -->
@@ -59,55 +54,58 @@ from cogutil import *
 <body class="slides">
 
 <div class="slide title" data-layout="clean">
-    <h1>Prez Title</h1>
+    <h1>Testing goodies</h1>
     <h2>
         Ned Batchelder<br/>
         <a class="implicit" href="https://nedbat.com">@nedbat</a>
-        <br/>
-        <a class="implicit" href="https://github.com/nedbat" target="_blank"><img class='icon' src='github.png' /></a>
-        <br/><br/>
-        <a class="implicit" href="http://bit.ly/shorturl"><span class="punct">http://</span>bit.ly<span class="punct">/</span>shorturl</a>
     </h2>
 </div>
 
-<div class="text"><!-- {{{ -->
-
-<p>Blah blah blah.</p>
-
-</div><!-- }}} -->
-
-
 <div class="slide">
-    <h1>Important Point!</h1>
+    <h1>pytest is deep and powerful</h1>
     <ul>
-    <li class="incremental">One</li>
-    <li class="incremental">Two
-        <ul>
-        <li>sub-point</li>
-        <li>another detail</li>
-        <li>"curly quotes" don't you know</li>
-        </ul>
-    </li>
-    <li class="incremental">Three</li>
+    <li class="incremental">Parameterized tests</li>
+    <li class="incremental">Testing exceptions</li>
+    <li class="incremental">Combined!</li>
+    <li class="incremental">Plugins add even more</li>
     </ul>
 </div>
 
 
-<div class="slide section" data-layout="clean">
-    <h1><label>A section</label> Section The First</h1>
-</div>
-
 <div class="slide">
-    <h1>Some code</h1>
+    <h1>Simple tests</h1>
     <pre class="python">
-    def fib(n):
-        if n < 2:
-            return 1
-        else:
-            return fib(n-1) + fib(n-2)
+    def is_even(n):
+        return bool(n % 2 == 0)
+
+    def test_four_is_even():
+        assert is_even(4)
+
+    def test_five_is_not_even():
+        assert not is_even(5)
     </pre>
 </div>
 
+
+<div class="slide">
+    <h1>Parameterization</h1>
+    <pre class="python">
+    import pytest
+
+    @pytest.mark.parametrize(
+        "n, expected",
+        [
+            (4, True),
+            (5, False),
+            (0, True),
+            (-3, False),
+            (-2, True),
+        ],
+    )
+    def test_is_even(n, expected):
+        assert is_even(n) is expected
+    </pre>
+</div>
 
 <div class="slide">
     <h1>Included code</h1>
@@ -193,10 +191,7 @@ from cogutil import *
     <h1 style="padding-top: 0em">Questions?</h1>
     <h2 style="margin-top: 5em">
         <a class="implicit" href="https://nedbat.com">@nedbat</a>
-        <br/>
-        <a class="implicit" href="https://github.com/nedbat" target="_blank"><img class='icon' src='github.png' /></a>
     </h2>
-    <h2><a class="implicit" href="http://bit.ly/shorturl"><span class="punct">http://</span>bit.ly<span class="punct">/</span>shorturl</a></h2>
 </div>
 
 
@@ -204,7 +199,6 @@ from cogutil import *
 <div class="layout" data-name="default">
     <content></content>
     <div class="footer">
-        <span class="left"><a class="implicit" href="http://bit.ly/shorturl">bit.ly<span class='punct'>/</span>shorturl</a></span>
         <span class="right"><a class="implicit" href="https://nedbat.com"><span class='punct'>@</span>nedbat</a></span>
         <hr class="defloat" />
     </div>
