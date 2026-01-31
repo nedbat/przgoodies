@@ -1,0 +1,219 @@
+<!DOCTYPE html> <!-- vim: set foldmethod=marker foldlevel=0 cc=60 :-->
+<!--
+Values to change when making a new prez:
+
+    blank.html -> name of this file.
+    shorturl -> bit.ly short url, or remove those lines.
+
+Process this file with cog:
+
+    $ pip install -r requirements.txt
+    $ python -m cogapp -c -r blank.html
+
+-->
+<html>
+<!-- *** Head stuff {{{ -->
+<!--[[[cog
+import cog
+from cogutil import *
+]]]-->
+<!--[[[end]]] (sum: 1B2M2Y8Asg)-->
+<head>
+    <title>Prez Title</title>
+    <meta charset="utf-8" />
+
+    <!-- *** Includes {{{ -->
+    <!-- Slippy core file and dependencies -->
+    <script type="text/javascript" src="slippy/jquery.min.js"></script>
+    <script type="text/javascript" src="slippy/jquery.history.js"></script>
+    <script type="text/javascript" src="slippy/slippy.js"></script>
+    <script type="text/javascript" src="typogr.min.js"></script>
+
+    <!-- Slippy structural styles -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy.css"/>
+    <!-- Slippy theme -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy-pure.css"/>
+    <!-- Our styles -->
+    <link type="text/css" rel="stylesheet" href="slides.css"/>
+
+    <!-- Highlight, for syntax coloring. -->
+    <script type="text/javascript" src="highlight/highlight.pack.js"></script>
+    <link rel="stylesheet" href="highlight/vs.css">
+
+    <script type="text/javascript" src="lineselect.js"></script>
+
+    <!-- http://html.adobe.com/edge/webfonts/ -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- }}} -->
+
+    <script type="text/javascript" src="slides.js"></script>
+    <!-- }}} -->
+
+    <!-- *** Custom style for this deck {{{ -->
+    <style type="text/css">
+    </style>
+    <!-- }}} -->
+
+</head>
+<!-- }}} -->
+<body class="slides">
+
+<div class="slide title" data-layout="clean">
+    <h1>Prez Title</h1>
+    <h2>
+        Ned Batchelder<br/>
+        <a class="implicit" href="https://nedbat.com">@nedbat</a>
+        <br/>
+        <a class="implicit" href="https://github.com/nedbat" target="_blank"><img class='icon' src='github.png' /></a>
+        <br/><br/>
+        <a class="implicit" href="http://bit.ly/shorturl"><span class="punct">http://</span>bit.ly<span class="punct">/</span>shorturl</a>
+    </h2>
+</div>
+
+<div class="text"><!-- {{{ -->
+
+<p>Blah blah blah.</p>
+
+</div><!-- }}} -->
+
+
+<div class="slide">
+    <h1>Important Point!</h1>
+    <ul>
+    <li class="incremental">One</li>
+    <li class="incremental">Two
+        <ul>
+        <li>sub-point</li>
+        <li>another detail</li>
+        <li>"curly quotes" don't you know</li>
+        </ul>
+    </li>
+    <li class="incremental">Three</li>
+    </ul>
+</div>
+
+
+<div class="slide section" data-layout="clean">
+    <h1><label>A section</label> Section The First</h1>
+</div>
+
+<div class="slide">
+    <h1>Some code</h1>
+    <pre class="python">
+    def fib(n):
+        if n < 2:
+            return 1
+        else:
+            return fib(n-1) + fib(n-2)
+    </pre>
+</div>
+
+
+<div class="slide">
+    <h1>Included code</h1>
+    <!--[[[cog include_file("sample.py") ]]] {{{ -->
+    <pre class='python'>
+    def f(n):
+        print(f"Look!: {n}")
+        if n &gt; 0:
+            f(n-1)
+
+    f(4)
+    </pre>
+    <!--[[[end]]] (sum: tuiz1oRRbp) }}}-->
+    <!--[[[cog include_file("sample.out") ]]] {{{ -->
+    <pre class='text'>
+    Look!: 4
+    Look!: 3
+    Look!: 2
+    Look!: 1
+    Look!: 0
+    </pre>
+    <!--[[[end]]] (sum: ZFjtVKwpsP) }}}-->
+</div>
+
+
+<div class="slide">
+    <h1>Smaller code</h1>
+    <!--[[[cog include_file("sample.py", classes="small") ]]] {{{ -->
+    <pre class='python small'>
+    def f(n):
+        print(f"Look!: {n}")
+        if n &gt; 0:
+            f(n-1)
+
+    f(4)
+    </pre>
+    <!--[[[end]]] (sum: wR8qTSqwdR) }}}-->
+    <!--[[[cog include_file("sample.out", classes="small") ]]] {{{ -->
+    <pre class='text small'>
+    Look!: 4
+    Look!: 3
+    Look!: 2
+    Look!: 1
+    Look!: 0
+    </pre>
+    <!--[[[end]]] (sum: aNgjlfWLmO) }}}-->
+</div>
+
+
+<div class="slide">
+    <h1>First test: interactive</h1>
+    <!-- ** Interactive session {{{ -->
+    <!--[[[cog
+    prompt_session("""\
+        num = 23 + 17
+        num
+        print(num)
+        random.seed(42)
+        random.randint(1, 1_000_000)
+        """,
+        prelude="""\
+        import random
+        """)
+    ]]]-->
+    <pre class='python console '>
+    &gt;&gt;&gt; num = 23 + 17
+    &gt;&gt;&gt; num
+    40
+    &gt;&gt;&gt; print(num)
+    40
+    &gt;&gt;&gt; random.seed(42)
+    &gt;&gt;&gt; random.randint(1, 1_000_000)
+    670488
+    </pre>
+    <!--[[[end]]] (sum: esaYIkbhju) }}}-->
+    <ul class="tight">
+        <li>Good: it runs the code</li>
+    </ul>
+</div>
+
+
+<div class="slide title" data-layout="clean">
+    <h1 style="padding-top: 0em">Questions?</h1>
+    <h2 style="margin-top: 5em">
+        <a class="implicit" href="https://nedbat.com">@nedbat</a>
+        <br/>
+        <a class="implicit" href="https://github.com/nedbat" target="_blank"><img class='icon' src='github.png' /></a>
+    </h2>
+    <h2><a class="implicit" href="http://bit.ly/shorturl"><span class="punct">http://</span>bit.ly<span class="punct">/</span>shorturl</a></h2>
+</div>
+
+
+<!-- ** Layouts {{{ -->
+<div class="layout" data-name="default">
+    <content></content>
+    <div class="footer">
+        <span class="left"><a class="implicit" href="http://bit.ly/shorturl">bit.ly<span class='punct'>/</span>shorturl</a></span>
+        <span class="right"><a class="implicit" href="https://nedbat.com"><span class='punct'>@</span>nedbat</a></span>
+        <hr class="defloat" />
+    </div>
+</div>
+
+<div class="layout nofooter" data-name="clean">
+    <content></content>
+</div>
+<!-- }}} -->
+
+</body>
+</html>
