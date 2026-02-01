@@ -18,6 +18,7 @@ from cogutil import code
 from textpipe import TextPipe as t
 
 python = partial(code, lang="python")
+console = partial(code, lang="console")
 
 os.environ["COLUMNS"] = "72"
 
@@ -84,7 +85,7 @@ os.environ["COLUMNS"] = "72"
 
 <div class="slide">
     <h1>Simple tests</h1>
-    <!--[[[cog python(t.file("samples/simple.py")) ]]] {{{ -->
+    <!--[[[cog python(t.file("samples/test_simple.py")) ]]] {{{ -->
     <pre class='python'>
     def is_even(n):
         return bool(n % 2 == 0)
@@ -112,32 +113,71 @@ os.environ["COLUMNS"] = "72"
             (5, False),
             (0, True),
             (-3, False),
-            (-2, True),
         ],
     )
     def test_is_even(n, expected):
         assert is_even(n) is expected
     </pre>
-    <!--[[[end]]] (sum: gvZSB+L+w6)  }}}-->
+    <!--[[[end]]] (sum: IW2VcfcqNF)  }}}-->
     <!--[[[cog 
-        code(
-            t.cmd("pytest -v samples/test_parameterized.py").ranges("1", "/collecting/,$"), 
+        console(
+            t.cmd("pytest -v test_parameterized.py", cwd="samples").ranges("1", "/collected/,$"), 
             classes="small",
         ) 
     ]]] {{{ -->
-    <pre class='small'>
-    $ pytest -v samples/test_parameterized.py
-    collecting ... collected 5 items
+    <pre class='console small'>
+    $ pytest -v test_parameterized.py
+    collecting ... collected 4 items
 
-    samples/test_parameterized.py::test_is_even[4-True] PASSED       [ 20%]
-    samples/test_parameterized.py::test_is_even[5-False] PASSED      [ 40%]
-    samples/test_parameterized.py::test_is_even[0-True] PASSED       [ 60%]
-    samples/test_parameterized.py::test_is_even[-3-False] PASSED     [ 80%]
-    samples/test_parameterized.py::test_is_even[-2-True] PASSED      [100%]
+    test_parameterized.py::test_is_even[4-True] PASSED               [ 25%]
+    test_parameterized.py::test_is_even[5-False] PASSED              [ 50%]
+    test_parameterized.py::test_is_even[0-True] PASSED               [ 75%]
+    test_parameterized.py::test_is_even[-3-False] PASSED             [100%]
 
-    ========================== 5 passed in 0.01s ===========================
+    ========================== 4 passed in 0.00s ===========================
     </pre>
-    <!--[[[end]]] (sum: TH87HLF5mI)   }}}-->
+    <!--[[[end]]] (sum: UTW17ScrNu)   }}}-->
+</div>
+
+<div class="slide">
+    <h1>Parameterization</h1>
+    <!--[[[cog 
+        console(
+            t.cmd("pytest fail_parameterized.py", cwd="samples").ranges("1", "/collected/,$-"), 
+            classes="s65",
+        ) 
+    ]]] {{{ -->
+    <pre class='console s65'>
+    $ pytest fail_parameterized.py
+    collected 4 items
+
+    fail_parameterized.py .F..                                       [100%]
+
+    =============================== FAILURES ===============================
+    _________________________ test_is_even[5-True] _________________________
+
+    n = 5, expected = True
+
+        @pytest.mark.parametrize(
+            "n, expected",
+            [
+                (4, True),
+                (5, True),  # INCORRECT!
+                (0, True),
+                (-3, False),
+            ],
+        )
+        def test_is_even(n, expected):
+    &gt;       assert is_even(n) is expected
+    E       assert False is True
+    E        +  where False = is_even(5)
+
+    fail_parameterized.py:16: AssertionError
+    ======================= short test summary info ========================
+    FAILED fail_parameterized.py::test_is_even[5-True] - assert False is ...
+    ===================== 1 failed, 3 passed in 0.01s ======================
+    </pre>
+    <!--[[[end]]] (sum: hmfhXYXJBB)   }}}-->
 </div>
 
 <div class="slide title" data-layout="clean">

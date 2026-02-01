@@ -7,7 +7,7 @@ import pytest
     "n, expected",
     [
         (4, True),
-        (5, False),
+        (5, True),  # INCORRECT!
         (0, True),
         (-3, False),
     ],

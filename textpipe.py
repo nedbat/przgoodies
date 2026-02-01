@@ -90,19 +90,21 @@ class TextPipe:
             return cls(list(f))
 
     @classmethod
-    def cmd(cls, command: str) -> TextPipe:
+    def cmd(cls, command: str, cwd: str | None = None) -> TextPipe:
         import subprocess
 
         output = f"$ {command}\n"
         result = subprocess.run(
             command,
             shell=True,
-            check=True,
+            cwd=cwd,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             universal_newlines=True,
         )
         output += result.stdout
+        if result.returncode != 0:
+            output += f"(exit code: {result.returncode})\n"
         return cls.text(output)
 
     def _resolve_addr(self, addr: Addr, start: int) -> int:

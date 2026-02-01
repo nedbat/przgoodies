@@ -153,16 +153,20 @@ img.icon {
     font-size: 75%;
 }
 
+.slide pre.s65 {
+    font-size: 65%;
+}
+
 .slide pre.tiny, .slide pre.s50 {
     font-size: 50%;
 }
 
-.slide pre.micro, .slide pre.s30 {
-    font-size: 30%;
-}
-
 .slide pre.s40 {
     font-size: 40%;
+}
+
+.slide pre.micro, .slide pre.s30 {
+    font-size: 30%;
 }
 
 .slide pre.nano, .slide pre.s10 {
