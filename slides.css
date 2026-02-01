@@ -116,9 +116,10 @@ img.icon {
 .slide pre {
     font-family: Consolas, monaco, monospace;
     margin-top: 1em;
-    background: #ccf;
+    background: #e4e4ff;
     padding: .3em .35em;
     line-height: 1.15;
+    border-radius: .25em;
 }
 .slide .prelabel {
     font-size: 80%;
