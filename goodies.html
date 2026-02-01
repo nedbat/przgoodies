@@ -145,9 +145,10 @@ os.environ["COLUMNS"] = "72"
         console(
             t.cmd("pytest fail_parameterized.py", cwd="samples").ranges("1", "/collected/,$-"), 
             classes="s65",
+            hilite=[14,26],
         ) 
     ]]] {{{ -->
-    <pre class='console s65'>
+    <pre class='console s65' data-hilite='|14|26|'>
     $ pytest fail_parameterized.py
     collected 4 items
 
@@ -177,7 +178,14 @@ os.environ["COLUMNS"] = "72"
     FAILED fail_parameterized.py::test_is_even[5-True] - assert False is ...
     ===================== 1 failed, 3 passed in 0.01s ======================
     </pre>
-    <!--[[[end]]] (sum: hmfhXYXJBB)   }}}-->
+    <!--[[[end]]] (sum: 4P1nTGI7Td)   }}}-->
+</div>
+
+<div class="slide">
+    <h1>Is this a good idea?</h1>
+    <ul>
+    <li>Not sure.</li>
+    </ul>
 </div>
 
 <div class="slide title" data-layout="clean">

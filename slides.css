@@ -191,6 +191,10 @@ img.icon {
     border-radius: .15em;
 }
 
+.slide pre .hilite {
+    background: rgba(256, 256, 256, .85);
+}
+
 .slide pre .highlight {
     background: #fe4;
 }
