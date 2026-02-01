@@ -182,6 +182,98 @@ os.environ["COLUMNS"] = "72"
 </div>
 
 <div class="slide">
+    <h1>Testing exceptions</h1>
+    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section1/+;/# end/-"), classes="small") ]]] {{{ -->
+    <pre class='python small'>
+    def six_divided(x):
+        return 6 / x
+
+    @pytest.mark.parametrize(
+        "x, expected",
+        [
+            (4, 1.5),
+            (3, 2.0),
+            (2, 3.0),
+            (1, 6.0),
+        ]
+    )
+    def test_six_divided(x, expected):
+        assert six_divided(x) == expected
+    </pre>
+    <!--[[[end]]] (sum: oE7643gMdq) }}}-->
+    <p class="incremental">Exceptions:</p>
+    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section2/+;/# end/-"), classes="small incremental") ]]] {{{ -->
+    <pre class='incremental python small'>
+    def test_six_divided_by_zero():
+        with pytest.raises(ZeroDivisionError):
+            six_divided(0)
+    </pre>
+    <!--[[[end]]] (sum: OVszMUu3sX) }}}-->
+</div>
+
+<div class="slide">
+    <h1>Testing exceptions</h1>
+    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section2/+;/# end/-"), classes="small") ]]] {{{ -->
+    <pre class='python small'>
+    def test_six_divided_by_zero():
+        with pytest.raises(ZeroDivisionError):
+            six_divided(0)
+    </pre>
+    <!--[[[end]]] (sum: ywY3AqhEgP) }}}-->
+    <p class="incremental">Parameterized:</p>
+    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section3/+;/# end/-"), classes="small incremental") ]]] {{{ -->
+    <pre class='incremental python small'>
+    @pytest.mark.parametrize(
+        "x, expected_error",
+        [
+            (0, ZeroDivisionError),
+            ("cat", TypeError),
+        ]
+    )
+    def test_six_divided_errors(x, expected_error):
+        with pytest.raises(expected_error):
+            six_divided(x)
+    </pre>
+    <!--[[[end]]] (sum: /hjlEt7jEX) }}}-->
+</div>
+
+<div class="slide">
+    <h1>Two separate parameterizations</h1>
+    <!--[[[cog 
+        python(
+            t.file("samples/test_six_divided.py")
+                .ranges("/@pytest/;/# end/-", "2", "/section3/+;/# end/-"), 
+            classes="small",
+        )
+    ]]] {{{ -->
+    <pre class='python small'>
+    @pytest.mark.parametrize(
+        "x, expected",
+        [
+            (4, 1.5),
+            (3, 2.0),
+            (2, 3.0),
+            (1, 6.0),
+        ]
+    )
+    def test_six_divided(x, expected):
+        assert six_divided(x) == expected
+
+    @pytest.mark.parametrize(
+        "x, expected_error",
+        [
+            (0, ZeroDivisionError),
+            ("cat", TypeError),
+        ]
+    )
+    def test_six_divided_errors(x, expected_error):
+        with pytest.raises(expected_error):
+            six_divided(x)
+    </pre>
+    <!--[[[end]]] (sum: Enu7E/EE9s) }}}-->
+</div>
+
+<div class="slide">
     <h1>Is this a good idea?</h1>
     <ul>
     <li>Not sure.</li>
