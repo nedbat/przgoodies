@@ -188,19 +188,20 @@ os.environ["COLUMNS"] = "72"
     def six_divided(x):
         return 6 / x
 
+    # Check the happy paths
+
     @pytest.mark.parametrize(
         "x, expected",
         [
             (4, 1.5),
             (3, 2.0),
             (2, 3.0),
-            (1, 6.0),
         ]
     )
     def test_six_divided(x, expected):
         assert six_divided(x) == expected
     </pre>
-    <!--[[[end]]] (sum: oE7643gMdq) }}}-->
+    <!--[[[end]]] (sum: druREx3Bzk) }}}-->
     <p class="incremental">Exceptions:</p>
     <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section2/+;/# end/-"), classes="small incremental") ]]] {{{ -->
     <pre class='incremental python small'>
@@ -221,8 +222,10 @@ os.environ["COLUMNS"] = "72"
     </pre>
     <!--[[[end]]] (sum: ywY3AqhEgP) }}}-->
     <p class="incremental">Parameterized:</p>
-    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section3/+;/# end/-"), classes="small incremental") ]]] {{{ -->
+    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/error path/;/# end/-"), classes="small incremental") ]]] {{{ -->
     <pre class='incremental python small'>
+    # Check the error paths
+
     @pytest.mark.parametrize(
         "x, expected_error",
         [
@@ -234,7 +237,7 @@ os.environ["COLUMNS"] = "72"
         with pytest.raises(expected_error):
             six_divided(x)
     </pre>
-    <!--[[[end]]] (sum: /hjlEt7jEX) }}}-->
+    <!--[[[end]]] (sum: 7/Zp9JCIep) }}}-->
 </div>
 
 <div class="slide">
@@ -242,22 +245,28 @@ os.environ["COLUMNS"] = "72"
     <!--[[[cog 
         python(
             t.file("samples/test_six_divided.py")
-                .ranges("/@pytest/;/# end/-", "2", "/section3/+;/# end/-"), 
+                .ranges(
+                    "/happy path/;/# end/-",
+                    "/error path/-;/# end/-",
+                ), 
             classes="small",
         )
     ]]] {{{ -->
     <pre class='python small'>
+    # Check the happy paths
+
     @pytest.mark.parametrize(
         "x, expected",
         [
             (4, 1.5),
             (3, 2.0),
             (2, 3.0),
-            (1, 6.0),
         ]
     )
     def test_six_divided(x, expected):
         assert six_divided(x) == expected
+
+    # Check the error paths
 
     @pytest.mark.parametrize(
         "x, expected_error",
@@ -270,7 +279,36 @@ os.environ["COLUMNS"] = "72"
         with pytest.raises(expected_error):
             six_divided(x)
     </pre>
-    <!--[[[end]]] (sum: Enu7E/EE9s) }}}-->
+    <!--[[[end]]] (sum: ZzB/l00rQ6) }}}-->
+</div>
+
+<div class="slide">
+    <h1>Combined!</h1>
+    <!--[[[cog 
+        python(
+            t.file("samples/test_six_divided.py").range("/contextlib/,$"), 
+            classes="small",
+        )
+    ]]] {{{ -->
+    <pre class='python small'>
+    from contextlib import nullcontext as produces
+    from pytest import raises
+
+    @pytest.mark.parametrize(
+        "x, result",
+        [
+            (4, produces(1.5)),
+            (3, produces(2.0)),
+            (2, produces(3.0)),
+            (0, raises(ZeroDivisionError)),
+            ("cat", raises(TypeError)),
+        ],
+    )
+    def test_division(x, result):
+        with result as expected:
+            assert six_divided(x) == expected
+    </pre>
+    <!--[[[end]]] (sum: F87DTV0arq) }}}-->
 </div>
 
 <div class="slide">
