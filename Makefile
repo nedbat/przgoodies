@@ -33,6 +33,10 @@ clean:
 sterile: clean
 	python -m cogapp -x -r $(SLIDE_HTML)
 
+test:
+	coverage run --branch -m pytest test_*.py
+	coverage report -m
+
 pngs:
 	phantomjs phantom-slippy-to-png.js $(SLIDE_HTML) $(PNG_DIR)/
 

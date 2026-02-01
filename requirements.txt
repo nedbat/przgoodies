@@ -1,3 +1,5 @@
 cogapp
 lxml
 cssselect
+pytest
+coverage
