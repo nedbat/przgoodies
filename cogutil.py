@@ -159,6 +159,7 @@ def include_code(text, lang=None, highlight=None, hilite=None, px=False, classes
     class_attr = lang
     if classes:
         class_attr += " " + classes
+    class_attr = " ".join(sorted(set(class_attr.split())))
     hilite_attr = ""
     if hilite:
         hilite_attr = " data-hilite='|{}|'".format("|".join(map(str, hilite)))
@@ -177,3 +178,26 @@ def prompt_session(input, command=False, prelude=""):
     repl_out = "\n".join('' if l == '... ' else l for l in repl_out.splitlines())
     output += repl_out
     include_code(output, lang="python", classes="console " + INCLUDE_FILE_DEFAULTS['classes'])
+
+
+def run_command(cmd, classes="", width=60):
+    """Run a shell command and include its output as a code block."""
+    import subprocess
+
+    output = f"$ {cmd}\n"
+    try:
+        output += subprocess.check_output(
+            cmd,
+            shell=True,
+            text=True,
+            stderr=subprocess.STDOUT,
+            env={**os.environ, "COLUMNS": str(width)},
+        )
+    except subprocess.CalledProcessError as e:
+        print(e.output)
+        raise
+    include_code(
+        output,
+        lang="console",
+        classes=classes + " " + INCLUDE_FILE_DEFAULTS["classes"],
+    )
