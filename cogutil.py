@@ -144,8 +144,8 @@ def find_nth(lines, start, needle, nth):
     return indexes[nth-1]
 
 
-def include_code(text, lang=None, highlight=None, hilite=None, px=False, classes=""):
-    text = textwrap.dedent(text)
+def code(text, lang=None, highlight=None, hilite=None, px=False, classes=""):
+    text = textwrap.dedent(str(text))
 
     text = "\n".join(l.rstrip() for l in text.splitlines())
 
@@ -155,15 +155,19 @@ def include_code(text, lang=None, highlight=None, hilite=None, px=False, classes
         cog.outl("</code>")
         return
 
-    result = []
-    class_attr = lang
+    class_attr = lang or ""
     if classes:
         class_attr += " " + classes
     class_attr = " ".join(sorted(set(class_attr.split())))
+    if class_attr:
+        class_attr = f" class='{class_attr}'"
+
     hilite_attr = ""
     if hilite:
         hilite_attr = " data-hilite='|{}|'".format("|".join(map(str, hilite)))
-    result.append("<pre class='{}'{}>".format(class_attr, hilite_attr))
+
+    result = []
+    result.append(f"<pre{class_attr}{hilite_attr}>")
     result.append(quote_html(text))
     result.append("</pre>")
     cog.outl("\n".join(result))
@@ -178,26 +182,3 @@ def prompt_session(input, command=False, prelude=""):
     repl_out = "\n".join('' if l == '... ' else l for l in repl_out.splitlines())
     output += repl_out
     include_code(output, lang="python", classes="console " + INCLUDE_FILE_DEFAULTS['classes'])
-
-
-def run_command(cmd, classes="", width=60):
-    """Run a shell command and include its output as a code block."""
-    import subprocess
-
-    output = f"$ {cmd}\n"
-    try:
-        output += subprocess.check_output(
-            cmd,
-            shell=True,
-            text=True,
-            stderr=subprocess.STDOUT,
-            env={**os.environ, "COLUMNS": str(width)},
-        )
-    except subprocess.CalledProcessError as e:
-        print(e.output)
-        raise
-    include_code(
-        output,
-        lang="console",
-        classes=classes + " " + INCLUDE_FILE_DEFAULTS["classes"],
-    )

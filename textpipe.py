@@ -77,14 +77,33 @@ class TextPipe:
     def __init__(self, lines: list[str]) -> None:
         self.lines = lines
 
+    def __str__(self) -> str:
+        return "".join(self.lines)
+
+    @classmethod
+    def text(cls, text: str) -> TextPipe:
+        return cls(text.splitlines(keepends=True))
+
     @classmethod
     def file(cls, filename: str) -> TextPipe:
         with open(filename) as f:
             return cls(list(f))
 
     @classmethod
-    def text(cls, text: str) -> TextPipe:
-        return cls(text.splitlines(keepends=True))
+    def cmd(cls, command: str) -> TextPipe:
+        import subprocess
+
+        output = f"$ {command}\n"
+        result = subprocess.run(
+            command,
+            shell=True,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
+        )
+        output += result.stdout
+        return cls.text(output)
 
     def _resolve_addr(self, addr: Addr, start: int) -> int:
         """Return the one-based line index for the given address.

@@ -9,8 +9,18 @@ Process this file with cog:
 <html>
 <!-- *** Head stuff {{{ -->
 <!--[[[cog
+
+import os
+from functools import partial
+
 import cog
-from cogutil import *
+from cogutil import code
+from textpipe import TextPipe as t
+
+python = partial(code, lang="python")
+
+os.environ["COLUMNS"] = "72"
+
 ]]]-->
 <!--[[[end]]] (sum: 1B2M2Y8Asg)-->
 <head>
@@ -74,7 +84,8 @@ from cogutil import *
 
 <div class="slide">
     <h1>Simple tests</h1>
-    <pre class="python">
+    <!--[[[cog python(t.file("samples/simple.py")) ]]] {{{ -->
+    <pre class='python'>
     def is_even(n):
         return bool(n % 2 == 0)
 
@@ -84,12 +95,14 @@ from cogutil import *
     def test_five_is_not_even():
         assert not is_even(5)
     </pre>
+    <!--[[[end]]] (sum: VP/R5S7lVZ) }}}-->
 </div>
 
 
 <div class="slide">
     <h1>Parameterization</h1>
-    <pre class="python">
+    <!--[[[cog python(t.file("samples/test_parameterized.py").range("/import/,$"), classes="small") ]]] {{{ -->
+    <pre class='python small'>
     import pytest
 
     @pytest.mark.parametrize(
@@ -105,87 +118,27 @@ from cogutil import *
     def test_is_even(n, expected):
         assert is_even(n) is expected
     </pre>
+    <!--[[[end]]] (sum: gvZSB+L+w6)  }}}-->
+    <!--[[[cog 
+        code(
+            t.cmd("pytest -v samples/test_parameterized.py").ranges("1", "/collecting/,$"), 
+            classes="small",
+        ) 
+    ]]] {{{ -->
+    <pre class='small'>
+    $ pytest -v samples/test_parameterized.py
+    collecting ... collected 5 items
+
+    samples/test_parameterized.py::test_is_even[4-True] PASSED       [ 20%]
+    samples/test_parameterized.py::test_is_even[5-False] PASSED      [ 40%]
+    samples/test_parameterized.py::test_is_even[0-True] PASSED       [ 60%]
+    samples/test_parameterized.py::test_is_even[-3-False] PASSED     [ 80%]
+    samples/test_parameterized.py::test_is_even[-2-True] PASSED      [100%]
+
+    ========================== 5 passed in 0.01s ===========================
+    </pre>
+    <!--[[[end]]] (sum: TH87HLF5mI)   }}}-->
 </div>
-
-<div class="slide">
-    <h1>Included code</h1>
-    <!--[[[cog include_file("sample.py") ]]] {{{ -->
-    <pre class='python'>
-    def f(n):
-        print(f"Look!: {n}")
-        if n &gt; 0:
-            f(n-1)
-
-    f(4)
-    </pre>
-    <!--[[[end]]] (sum: tuiz1oRRbp) }}}-->
-    <!--[[[cog include_file("sample.out") ]]] {{{ -->
-    <pre class='text'>
-    Look!: 4
-    Look!: 3
-    Look!: 2
-    Look!: 1
-    Look!: 0
-    </pre>
-    <!--[[[end]]] (sum: ZFjtVKwpsP) }}}-->
-</div>
-
-
-<div class="slide">
-    <h1>Smaller code</h1>
-    <!--[[[cog include_file("sample.py", classes="small") ]]] {{{ -->
-    <pre class='python small'>
-    def f(n):
-        print(f"Look!: {n}")
-        if n &gt; 0:
-            f(n-1)
-
-    f(4)
-    </pre>
-    <!--[[[end]]] (sum: wR8qTSqwdR) }}}-->
-    <!--[[[cog include_file("sample.out", classes="small") ]]] {{{ -->
-    <pre class='text small'>
-    Look!: 4
-    Look!: 3
-    Look!: 2
-    Look!: 1
-    Look!: 0
-    </pre>
-    <!--[[[end]]] (sum: aNgjlfWLmO) }}}-->
-</div>
-
-
-<div class="slide">
-    <h1>First test: interactive</h1>
-    <!-- ** Interactive session {{{ -->
-    <!--[[[cog
-    prompt_session("""\
-        num = 23 + 17
-        num
-        print(num)
-        random.seed(42)
-        random.randint(1, 1_000_000)
-        """,
-        prelude="""\
-        import random
-        """)
-    ]]]-->
-    <pre class='python console '>
-    &gt;&gt;&gt; num = 23 + 17
-    &gt;&gt;&gt; num
-    40
-    &gt;&gt;&gt; print(num)
-    40
-    &gt;&gt;&gt; random.seed(42)
-    &gt;&gt;&gt; random.randint(1, 1_000_000)
-    670488
-    </pre>
-    <!--[[[end]]] (sum: esaYIkbhju) }}}-->
-    <ul class="tight">
-        <li>Good: it runs the code</li>
-    </ul>
-</div>
-
 
 <div class="slide title" data-layout="clean">
     <h1 style="padding-top: 0em">Questions?</h1>

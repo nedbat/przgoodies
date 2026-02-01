@@ -9,23 +9,17 @@ VENDOR = slippy highlight
 
 .PHONY: $(SLIDE_HTML)
 
-SAMPLES = sample.py
-
-OUTPUT = sample.out
+SAMPLES = $(wildcard samples/*)
 
 slides: $(SLIDE_HTML)
 
-$(SLIDE_HTML): $(OUTPUT)
+$(SLIDE_HTML): $(SAMPLES)
 	python -m cogapp -c -r $@
-
-%.out: %.py
-	python $*.py > $@ 2>&1
 
 PNG_DIR = png
 
 clean:
 	rm -f *.pyc $(PX)
-	rm -f $(OUTPUT)
 	rm -rf __pycache__
 	rm -rf $(PNG_DIR)
 	rm -f $(ZIP_FILE)
@@ -34,7 +28,7 @@ sterile: clean
 	python -m cogapp -x -r $(SLIDE_HTML)
 
 test:
-	coverage run --branch -m pytest test_*.py
+	coverage run --branch -m pytest test_*.py samples/*.py
 	coverage report -m
 
 pngs:
