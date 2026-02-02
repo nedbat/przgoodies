@@ -45,10 +45,10 @@ from pytest import raises
 @pytest.mark.parametrize(
     "x, result",
     [
-        (4, produces(1.5)),
-        (3, produces(2.0)),
-        (2, produces(3.0)),
-        (0, raises(ZeroDivisionError)),
+        (4,     produces(1.5)),
+        (3,     produces(2.0)),
+        (2,     produces(3.0)),
+        (0,     raises(ZeroDivisionError)),
         ("cat", raises(TypeError)),
     ],
 )

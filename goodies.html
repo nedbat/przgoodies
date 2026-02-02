@@ -298,10 +298,10 @@ os.environ["COLUMNS"] = "72"
     @pytest.mark.parametrize(
         "x, result",
         [
-            (4, produces(1.5)),
-            (3, produces(2.0)),
-            (2, produces(3.0)),
-            (0, raises(ZeroDivisionError)),
+            (4,     produces(1.5)),
+            (3,     produces(2.0)),
+            (2,     produces(3.0)),
+            (0,     raises(ZeroDivisionError)),
             ("cat", raises(TypeError)),
         ],
     )
@@ -309,7 +309,7 @@ os.environ["COLUMNS"] = "72"
         with result as expected:
             assert six_divided(x) == expected
     </pre>
-    <!--[[[end]]] (sum: oBNqBEHMVK) }}}-->
+    <!--[[[end]]] (sum: mCHi1kbN0f) }}}-->
 </div>
 
 <div class="slide">
@@ -368,10 +368,10 @@ os.environ["COLUMNS"] = "72"
     @pytest.mark.parametrize(
         "x, result",
         [
-            (4, produces(1.5)),
-            (3, produces(2.0)),
-            (2, produces(3.0)),
-            (0, raises(ZeroDivisionError)),
+            (4,     produces(1.5)),
+            (3,     produces(2.0)),
+            (2,     produces(3.0)),
+            (0,     raises(ZeroDivisionError)),
             ("cat", raises(TypeError)),
         ],
     )
@@ -379,13 +379,15 @@ os.environ["COLUMNS"] = "72"
         with result as expected:
             assert six_divided(x) == expected
     </pre>
-    <!--[[[end]]] (sum: oBNqBEHMVK) }}}-->
+    <!--[[[end]]] (sum: mCHi1kbN0f) }}}-->
 </div>
 
 <div class="slide">
     <h1>Is this a good idea?</h1>
     <ul>
-    <li class="incremental">Not sure.</li>
+    <li class="incremental">Not sure</li>
+    <li class="incremental">Maybe?</li>
+    <li class="incremental">But it's interesting</li>
     </ul>
 </div>
 
