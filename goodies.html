@@ -145,7 +145,7 @@ os.environ["COLUMNS"] = "72"
         console(
             t.cmd("pytest fail_parameterized.py", cwd="samples").ranges("1", "/collected/,$-"), 
             classes="s65",
-            hilite=[14,26],
+            highlight=["INCORRECT", "FAILED"],
         ) 
     ]]] {{{ -->
     <pre class='console s65' data-hilite='|14|26|'>
