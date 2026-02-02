@@ -2,9 +2,13 @@
 
 import textwrap
 
-import cog
+try:
+    import cog
+except ImportError:
+    pass  # for running tests.
+
 import cagedprompt
-import textpipe
+from textpipe import TextPipe
 
 
 def quote_html(s):
@@ -72,7 +76,24 @@ def prompt_session(input, command=False, prelude=""):
     code(output, lang="python", classes="console " + INCLUDE_FILE_DEFAULTS["classes"])
 
 
-# Convenience
+def include_file(filename: str) -> TextPipe:
+    with open(filename) as f:
+        return TextPipe(list(f))
 
-include_file = textpipe.TextPipe.file
-run_command = textpipe.TextPipe.cmd
+
+def run_command(command: str, cwd: str | None = None) -> TextPipe:
+    import subprocess
+
+    output = f"$ {command}\n"
+    result = subprocess.run(
+        command,
+        shell=True,
+        cwd=cwd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        universal_newlines=True,
+    )
+    output += result.stdout
+    if result.returncode != 0:
+        output += f"(exit code: {result.returncode})\n"
+    return TextPipe.text(output)

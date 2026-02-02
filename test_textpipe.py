@@ -16,23 +16,6 @@ def test_str():
     assert str(TextPipe.text("line1\nline2\n")) == "line1\nline2\n"
 
 
-def test_file():
-    me = __file__.rstrip("c")
-    with open(me) as f:
-        expected = f.readlines()
-    assert TextPipe.file(me).lines == expected
-
-
-def test_cmd():
-    tp = TextPipe.cmd("seq 3")
-    assert tp.lines == ["$ seq 3\n", "1\n", "2\n", "3\n"]
-
-
-def test_bad_cmd():
-    tp = TextPipe.cmd("exit 17")
-    assert tp.lines == ["$ exit 17\n", "(exit code: 17)\n"]
-
-
 @pytest.mark.parametrize(
     "expr, result",
     [

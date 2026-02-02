@@ -84,29 +84,6 @@ class TextPipe:
     def text(cls, text: str) -> TextPipe:
         return cls(text.splitlines(keepends=True))
 
-    @classmethod
-    def file(cls, filename: str) -> TextPipe:
-        with open(filename) as f:
-            return cls(list(f))
-
-    @classmethod
-    def cmd(cls, command: str, cwd: str | None = None) -> TextPipe:
-        import subprocess
-
-        output = f"$ {command}\n"
-        result = subprocess.run(
-            command,
-            shell=True,
-            cwd=cwd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            universal_newlines=True,
-        )
-        output += result.stdout
-        if result.returncode != 0:
-            output += f"(exit code: {result.returncode})\n"
-        return cls.text(output)
-
     def _resolve_addr(self, addr: Addr, start: int) -> int:
         """Return the one-based line index for the given address.
         `start` is the one-based index of the current line, except 0 means
@@ -129,8 +106,8 @@ class TextPipe:
             res = start + addr.delta
         return res
 
-    def ranges(self, *range_exprs: str) -> TextPipe:
-        lines = []
+    def _line_numbers(self, *range_exprs: str) -> list[int]:
+        numbers = []
         start = 0
         for range_expr in range_exprs:
             r = Range.parse(range_expr)
@@ -145,14 +122,16 @@ class TextPipe:
                 end_idx = self._resolve_addr(r.end, start=start)
             if start_idx > end_idx:
                 raise ValueError(f"Invalid range: start {start_idx} > end {end_idx}")
-            lines.extend(self.lines[start_idx - 1 : end_idx])
+            numbers.extend(range(start_idx - 1, end_idx))
             start = end_idx
-        return TextPipe(lines)
+        return numbers
+
+    def ranges(self, *range_exprs: str) -> TextPipe:
+        return TextPipe([self.lines[i] for i in self._line_numbers(*range_exprs)])
 
     range = ranges
 
     def __getitem__(self, key: str | tuple[str, ...]) -> TextPipe:
         if isinstance(key, str):
-            return self.range(key)
-        else:
-            return self.ranges(*key)
+            key = [key]
+        return self.ranges(*key)
