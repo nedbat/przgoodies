@@ -287,10 +287,10 @@ os.environ["COLUMNS"] = "72"
     <!--[[[cog 
         python(
             t.file("samples/test_six_divided.py").range("/contextlib/,$"), 
-            classes="small",
+            classes="medium",
         )
     ]]] {{{ -->
-    <pre class='python small'>
+    <pre class='medium python'>
     from contextlib import nullcontext as produces
     from pytest import raises
 
@@ -308,13 +308,83 @@ os.environ["COLUMNS"] = "72"
         with result as expected:
             assert six_divided(x) == expected
     </pre>
-    <!--[[[end]]] (sum: F87DTV0arq) }}}-->
+    <!--[[[end]]] (sum: oBNqBEHMVK) }}}-->
+</div>
+
+<div class="slide">
+    <h1>Context managers</h1>
+    <p>Usually:</p>
+    <pre class="python">
+    with open("myfile.txt") as f:
+        data = f.read()
+    </pre>
+    <div class="incremental">
+    <p>This is the same:</p>
+    <pre class="python">
+    opened_file = open("myfile.txt")
+    with opened_file as f:
+        data = f.read()
+    </pre>
+    </div>
+</div>
+
+<div class="slide">
+    <h1>nullcontext</h1>
+    <pre class="python">
+    from contextlib import nullcontext
+
+    with nullcontext(42) as value:
+        print(value)  # prints 42
+    </pre>
+    <div class="incremental">
+    <p>Meant for conditional situations:</p>
+    <pre class="python">
+    from contextlib import nullcontext, redirect_stdout
+
+    if to_file:
+        out_ctrl = redirect_stdout(open("out.txt", "w"))
+    else:
+        out_ctrl = nullcontext()
+
+    with out_ctrl:
+        print("Hello world!")
+    </pre>
+    </div>
+</div>
+
+<div class="slide">
+    <h1>Again</h1>
+    <!--[[[cog
+        python(
+            t.file("samples/test_six_divided.py").range("/contextlib/,$"),
+            classes="medium",
+        )
+    ]]] {{{ -->
+    <pre class='medium python'>
+    from contextlib import nullcontext as produces
+    from pytest import raises
+
+    @pytest.mark.parametrize(
+        "x, result",
+        [
+            (4, produces(1.5)),
+            (3, produces(2.0)),
+            (2, produces(3.0)),
+            (0, raises(ZeroDivisionError)),
+            ("cat", raises(TypeError)),
+        ],
+    )
+    def test_division(x, result):
+        with result as expected:
+            assert six_divided(x) == expected
+    </pre>
+    <!--[[[end]]] (sum: oBNqBEHMVK) }}}-->
 </div>
 
 <div class="slide">
     <h1>Is this a good idea?</h1>
     <ul>
-    <li>Not sure.</li>
+    <li class="incremental">Not sure.</li>
     </ul>
 </div>
 
