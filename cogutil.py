@@ -4,6 +4,7 @@ import textwrap
 
 import cog
 import cagedprompt
+import textpipe
 
 
 def quote_html(s):
@@ -69,3 +70,9 @@ def prompt_session(input, command=False, prelude=""):
     repl_out = "\n".join("" if l == "... " else l for l in repl_out.splitlines())
     output += repl_out
     code(output, lang="python", classes="console " + INCLUDE_FILE_DEFAULTS["classes"])
+
+
+# Convenience
+
+include_file = textpipe.TextPipe.file
+run_command = textpipe.TextPipe.cmd

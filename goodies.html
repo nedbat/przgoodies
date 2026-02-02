@@ -11,14 +11,12 @@ Process this file with cog:
 <!--[[[cog
 
 import os
-from functools import partial
-
+import functools
 import cog
-from cogutil import code
-from textpipe import TextPipe as t
+from cogutil import code, include_file, run_command
 
-python = partial(code, lang="python")
-console = partial(code, lang="console")
+python = functools.partial(code, lang="python")
+console = functools.partial(code, lang="console")
 
 os.environ["COLUMNS"] = "72"
 
@@ -85,7 +83,7 @@ os.environ["COLUMNS"] = "72"
 
 <div class="slide">
     <h1>Simple tests</h1>
-    <!--[[[cog python(t.file("samples/test_simple.py")) ]]] {{{ -->
+    <!--[[[cog python(include_file("samples/test_simple.py")) ]]] {{{ -->
     <pre class='python'>
     def is_even(n):
         return bool(n % 2 == 0)
@@ -102,7 +100,7 @@ os.environ["COLUMNS"] = "72"
 
 <div class="slide">
     <h1>Parameterization</h1>
-    <!--[[[cog python(t.file("samples/test_parameterized.py").range("/import/,$"), classes="small") ]]] {{{ -->
+    <!--[[[cog python(include_file("samples/test_parameterized.py").range("/import/,$"), classes="small") ]]] {{{ -->
     <pre class='python small'>
     import pytest
 
@@ -121,7 +119,7 @@ os.environ["COLUMNS"] = "72"
     <!--[[[end]]] (sum: IW2VcfcqNF)  }}}-->
     <!--[[[cog 
         console(
-            t.cmd("pytest -v test_parameterized.py", cwd="samples").ranges("1", "/collected/,$"), 
+            run_command("pytest -v test_parameterized.py", cwd="samples").ranges("1", "/collected/,$"), 
             classes="small",
         ) 
     ]]] {{{ -->
@@ -143,7 +141,7 @@ os.environ["COLUMNS"] = "72"
     <h1>Parameterization</h1>
     <!--[[[cog 
         console(
-            t.cmd("pytest fail_parameterized.py", cwd="samples").ranges("1", "/collected/,$-"), 
+            run_command("pytest fail_parameterized.py", cwd="samples").ranges("1", "/collected/,$-"), 
             classes="s65",
             highlight=["INCORRECT", "FAILED"],
         ) 
@@ -183,7 +181,7 @@ os.environ["COLUMNS"] = "72"
 
 <div class="slide">
     <h1>Testing exceptions</h1>
-    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section1/+;/# end/-"), classes="small") ]]] {{{ -->
+    <!--[[[cog python(include_file("samples/test_six_divided.py").range("/section1/+;/# end/-"), classes="small") ]]] {{{ -->
     <pre class='python small'>
     def six_divided(x):
         return 6 / x
@@ -203,7 +201,7 @@ os.environ["COLUMNS"] = "72"
     </pre>
     <!--[[[end]]] (sum: druREx3Bzk) }}}-->
     <p class="incremental">Exceptions:</p>
-    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section2/+;/# end/-"), classes="small incremental") ]]] {{{ -->
+    <!--[[[cog python(include_file("samples/test_six_divided.py").range("/section2/+;/# end/-"), classes="small incremental") ]]] {{{ -->
     <pre class='incremental python small'>
     def test_six_divided_by_zero():
         with pytest.raises(ZeroDivisionError):
@@ -214,7 +212,7 @@ os.environ["COLUMNS"] = "72"
 
 <div class="slide">
     <h1>Testing exceptions</h1>
-    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/section2/+;/# end/-"), classes="small") ]]] {{{ -->
+    <!--[[[cog python(include_file("samples/test_six_divided.py").range("/section2/+;/# end/-"), classes="small") ]]] {{{ -->
     <pre class='python small'>
     def test_six_divided_by_zero():
         with pytest.raises(ZeroDivisionError):
@@ -222,7 +220,7 @@ os.environ["COLUMNS"] = "72"
     </pre>
     <!--[[[end]]] (sum: ywY3AqhEgP) }}}-->
     <p class="incremental">Parameterized:</p>
-    <!--[[[cog python(t.file("samples/test_six_divided.py").range("/error path/;/# end/-"), classes="small incremental") ]]] {{{ -->
+    <!--[[[cog python(include_file("samples/test_six_divided.py").range("/error path/;/# end/-"), classes="small incremental") ]]] {{{ -->
     <pre class='incremental python small'>
     # Check the error paths
 
@@ -244,7 +242,7 @@ os.environ["COLUMNS"] = "72"
     <h1>Two separate parameterizations</h1>
     <!--[[[cog 
         python(
-            t.file("samples/test_six_divided.py")
+            include_file("samples/test_six_divided.py")
                 .ranges(
                     "/happy path/;/# end/-",
                     "/error path/-;/# end/-",
@@ -286,7 +284,7 @@ os.environ["COLUMNS"] = "72"
     <h1>Combined!</h1>
     <!--[[[cog 
         python(
-            t.file("samples/test_six_divided.py").range("/contextlib/,$"), 
+            include_file("samples/test_six_divided.py").range("/contextlib/,$"), 
             classes="medium",
         )
     ]]] {{{ -->
@@ -356,7 +354,7 @@ os.environ["COLUMNS"] = "72"
     <h1>Again</h1>
     <!--[[[cog
         python(
-            t.file("samples/test_six_divided.py").range("/contextlib/,$"),
+            include_file("samples/test_six_divided.py").range("/contextlib/,$"),
             classes="medium",
         )
     ]]] {{{ -->
