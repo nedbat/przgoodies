@@ -8,7 +8,7 @@ except ImportError:
     pass  # for running tests.
 
 import cagedprompt
-from textpipe import TextPipe
+from edtext import EdText
 
 
 def quote_html(s):
@@ -76,12 +76,12 @@ def prompt_session(input, command=False, prelude=""):
     code(output, lang="python", classes="console " + INCLUDE_FILE_DEFAULTS["classes"])
 
 
-def include_file(filename: str) -> TextPipe:
+def include_file(filename: str) -> EdText:
     with open(filename) as f:
-        return TextPipe(list(f))
+        return EdText(list(f))
 
 
-def run_command(command: str, cwd: str | None = None) -> TextPipe:
+def run_command(command: str, cwd: str | None = None) -> EdText:
     import subprocess
 
     output = f"$ {command}\n"
@@ -96,4 +96,4 @@ def run_command(command: str, cwd: str | None = None) -> TextPipe:
     output += result.stdout
     if result.returncode != 0:
         output += f"(exit code: {result.returncode})\n"
-    return TextPipe.text(output)
+    return EdText.text(output)

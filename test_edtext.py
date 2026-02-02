@@ -5,15 +5,15 @@ from contextlib import nullcontext as produces
 import pytest
 from pytest import raises
 
-from textpipe import TextPipe, Addr, Range
+from edtext import EdText, Addr, Range
 
 
 def test_text():
-    assert TextPipe.text("line1\nline2\n").lines == ["line1\n", "line2\n"]
+    assert EdText.text("line1\nline2\n").lines == ["line1\n", "line2\n"]
 
 
 def test_str():
-    assert str(TextPipe.text("line1\nline2\n")) == "line1\nline2\n"
+    assert str(EdText.text("line1\nline2\n")) == "line1\nline2\n"
 
 
 @pytest.mark.parametrize(
@@ -114,7 +114,7 @@ ten_lines = "\n".join(f"line {i + 1}" for i in range(10)) + "\n"
 )
 def test_range(range, result):
     with result as expected_lines:
-        assert TextPipe.text(ten_lines)[range].lines == expected_lines
+        assert EdText.text(ten_lines)[range].lines == expected_lines
 
 
 @pytest.mark.parametrize(
@@ -152,4 +152,4 @@ def test_range(range, result):
 )
 def test_ranges(ranges, result):
     with result as expected_lines:
-        assert TextPipe.text(ten_lines)[*ranges].lines == expected_lines
+        assert EdText.text(ten_lines)[*ranges].lines == expected_lines

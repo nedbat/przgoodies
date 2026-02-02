@@ -73,7 +73,7 @@ class Range:
         return r
 
 
-class TextPipe:
+class EdText:
     def __init__(self, lines: list[str]) -> None:
         self.lines = lines
 
@@ -81,7 +81,7 @@ class TextPipe:
         return "".join(self.lines)
 
     @classmethod
-    def text(cls, text: str) -> TextPipe:
+    def text(cls, text: str) -> EdText:
         return cls(text.splitlines(keepends=True))
 
     def _resolve_addr(self, addr: Addr, start: int) -> int:
@@ -126,12 +126,12 @@ class TextPipe:
             start = end_idx
         return numbers
 
-    def ranges(self, *range_exprs: str) -> TextPipe:
-        return TextPipe([self.lines[i] for i in self._line_numbers(*range_exprs)])
+    def ranges(self, *range_exprs: str) -> EdText:
+        return EdText([self.lines[i] for i in self._line_numbers(*range_exprs)])
 
     range = ranges
 
-    def __getitem__(self, key: str | tuple[str, ...]) -> TextPipe:
+    def __getitem__(self, key: str | tuple[str, ...]) -> EdText:
         if isinstance(key, str):
             key = [key]
         return self.ranges(*key)
