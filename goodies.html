@@ -88,7 +88,7 @@ os.environ["COLUMNS"] = "72"
     def is_even(n):
         return bool(n % 2 == 0)
     </pre>
-    <!--[[[end]]] (sum: CLBMpuQV+7)  }}}-->
+    <!--[[[end]]] (sum: CLBMpuQV+7) }}}-->
     <!--[[[cog python(include_file("samples/test_simple.py").range("/def test/,$")) ]]] {{{ -->
     <pre class='python'>
     def test_four_is_even():
@@ -97,7 +97,7 @@ os.environ["COLUMNS"] = "72"
     def test_five_is_not_even():
         assert not is_even(5)
     </pre>
-    <!--[[[end]]] (sum: zO4gZY1zVd)  }}}-->
+    <!--[[[end]]] (sum: zO4gZY1zVd) }}}-->
 </div>
 
 
@@ -119,7 +119,7 @@ os.environ["COLUMNS"] = "72"
     def test_is_even(n, expected):
         assert is_even(n) is expected
     </pre>
-    <!--[[[end]]] (sum: IW2VcfcqNF)  }}}-->
+    <!--[[[end]]] (sum: IW2VcfcqNF) }}}-->
     <!--[[[cog 
         console(
             run_command("pytest -v test_parameterized.py", cwd="samples").ranges("1", "/collected/,$"), 
@@ -137,7 +137,7 @@ os.environ["COLUMNS"] = "72"
 
     ========================== 4 passed in 0.00s ===========================
     </pre>
-    <!--[[[end]]] (sum: UTW17ScrNu)   }}}-->
+    <!--[[[end]]] (sum: UTW17ScrNu) }}}-->
 </div>
 
 <div class="slide">
@@ -179,7 +179,7 @@ os.environ["COLUMNS"] = "72"
     FAILED fail_parameterized.py::test_is_even[5-True] - assert False is ...
     ===================== 1 failed, 3 passed in 0.01s ======================
     </pre>
-    <!--[[[end]]] (sum: 4P1nTGI7Td)   }}}-->
+    <!--[[[end]]] (sum: 4P1nTGI7Td) }}}-->
 </div>
 
 <div class="slide">
