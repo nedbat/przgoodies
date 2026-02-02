@@ -21,6 +21,7 @@ def test_str():
     [
         ("10", produces(Addr(number=10))),
         ("/pattern/", produces(Addr(regex="pattern"))),
+        ("/pattern", produces(Addr(regex="pattern"))),
         ("/pattern/+12", produces(Addr(regex="pattern", delta=12))),
         ("/pattern/+12--", produces(Addr(regex="pattern", delta=12))),
         ("/pattern/+", produces(Addr(regex="pattern", delta=1))),

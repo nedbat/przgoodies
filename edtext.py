@@ -21,7 +21,7 @@ class Addr:
             (?:
                 (?P<number>\d+)         # line number
                 |
-                (?P<regex>/[^/]+?/)     # regex
+                (?P<regex>/[^/]+?(/|$)) # regex
                 |
                 (?P<last>\$)            # last line
             )?
