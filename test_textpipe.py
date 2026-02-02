@@ -131,7 +131,7 @@ ten_lines = "\n".join(f"line {i + 1}" for i in range(10)) + "\n"
 )
 def test_range(range, result):
     with result as expected_lines:
-        assert TextPipe.text(ten_lines).range(range).lines == expected_lines
+        assert TextPipe.text(ten_lines)[range].lines == expected_lines
 
 
 @pytest.mark.parametrize(
@@ -169,4 +169,4 @@ def test_range(range, result):
 )
 def test_ranges(ranges, result):
     with result as expected_lines:
-        assert TextPipe.text(ten_lines).ranges(*ranges).lines == expected_lines
+        assert TextPipe.text(ten_lines)[*ranges].lines == expected_lines

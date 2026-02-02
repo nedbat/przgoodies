@@ -150,3 +150,9 @@ class TextPipe:
         return TextPipe(lines)
 
     range = ranges
+
+    def __getitem__(self, key: str | tuple[str, ...]) -> TextPipe:
+        if isinstance(key, str):
+            return self.range(key)
+        else:
+            return self.ranges(*key)
