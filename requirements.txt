@@ -3,3 +3,4 @@ lxml
 cssselect
 pytest
 coverage
+-e /Users/ned/edtext

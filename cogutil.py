@@ -78,7 +78,7 @@ def prompt_session(input, command=False, prelude=""):
 
 def include_file(filename: str) -> EdText:
     with open(filename) as f:
-        return EdText(list(f))
+        return EdText(f.read())
 
 
 def run_command(command: str, cwd: str | None = None) -> EdText:
@@ -96,4 +96,4 @@ def run_command(command: str, cwd: str | None = None) -> EdText:
     output += result.stdout
     if result.returncode != 0:
         output += f"(exit code: {result.returncode})\n"
-    return EdText.text(output)
+    return EdText(output)
