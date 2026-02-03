@@ -81,14 +81,20 @@ os.environ["COLUMNS"] = "72"
 </div>
 
 
+<div class="slide section" data-layout="clean">
+    <h1>Unified parameterization</h1>
+</div>
+
 <div class="slide">
     <h1>Simple tests</h1>
+    <p>A function:</p>
     <!--[[[cog python(include_file("samples/test_simple.py")["/def is/;+"]) ]]] {{{ -->
     <pre class='python'>
     def is_even(n):
         return bool(n % 2 == 0)
     </pre>
     <!--[[[end]]] (sum: CLBMpuQV+7) }}}-->
+    <p>Tests:</p>
     <!--[[[cog python(include_file("samples/test_simple.py")["/def test/,$"]) ]]] {{{ -->
     <pre class='python'>
     def test_four_is_even():
@@ -389,6 +395,10 @@ os.environ["COLUMNS"] = "72"
     <li class="incremental">Maybe?</li>
     <li class="incremental">But it's interesting</li>
     </ul>
+</div>
+
+<div class="slide section" data-layout="clean">
+    <h1>Plugin for cached functions</h1>
 </div>
 
 <div class="slide title" data-layout="clean">
