@@ -28,7 +28,7 @@ sterile: clean
 	python -m cogapp -x -r $(SLIDE_HTML)
 
 test:
-	coverage run --branch --source=. -m pytest test_*.py samples/test_*.py
+	coverage run --branch -m pytest test_*.py samples/test_*.py
 	coverage report -m
 
 pngs:
