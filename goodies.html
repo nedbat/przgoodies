@@ -126,11 +126,13 @@ os.environ["COLUMNS"] = "72"
         assert is_even(n) is expected
     </pre>
     <!--[[[end]]] (sum: IW2VcfcqNF) }}}-->
-    <!--[[[cog 
+    <!--[[[cog
         console(
-            run_command("pytest -v test_parameterized.py", cwd="samples")["1", "/collected/,$"], 
+            run_command("pytest -v test_parameterized.py", cwd="samples")
+                ["1", "/collected/,$"]
+                .sub("g/====", r"0.\d\ds", "0.00s"),
             classes="small",
-        ) 
+        )
     ]]] {{{ -->
     <pre class='console small'>
     $ pytest -v test_parameterized.py
@@ -148,12 +150,14 @@ os.environ["COLUMNS"] = "72"
 
 <div class="slide">
     <h1>Parameterization</h1>
-    <!--[[[cog 
+    <!--[[[cog
         console(
-            run_command("pytest fail_parameterized.py", cwd="samples")["1", "/collected/,$-"], 
+            run_command("pytest fail_parameterized.py", cwd="samples")
+                ["1", "/collected/,$-"]
+                .sub("g/====", r"0.\d\ds", "0.01s"),
             classes="s65",
             highlight=["INCORRECT", "FAILED"],
-        ) 
+        )
     ]]] {{{ -->
     <pre class='console s65' data-hilite='|14|26|'>
     $ pytest fail_parameterized.py
@@ -398,7 +402,7 @@ os.environ["COLUMNS"] = "72"
 </div>
 
 <div class="slide section" data-layout="clean">
-    <h1>Plugin for cached functions</h1>
+    <h1>Cached functions</h1>
 </div>
 
 <div class="slide title" data-layout="clean">
