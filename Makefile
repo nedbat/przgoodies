@@ -1,4 +1,4 @@
-SLUG = goodies
+SLUG = unified
 
 SLIDE_HTML = $(SLUG).html
 ZIP_FILE = $(SLUG).zip
