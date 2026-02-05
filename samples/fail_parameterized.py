@@ -1,5 +1,5 @@
 def is_even(n):
-    return bool(n % 2 == 0)
+    return n % 2 == 0
 
 import pytest
 

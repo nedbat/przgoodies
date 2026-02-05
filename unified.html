@@ -86,9 +86,9 @@ os.environ["COLUMNS"] = "72"
     <!--[[[cog python(include_file("samples/test_simple.py")["/def is/;+"]) ]]] {{{ -->
     <pre class='python'>
     def is_even(n):
-        return bool(n % 2 == 0)
+        return n % 2 == 0
     </pre>
-    <!--[[[end]]] (sum: CLBMpuQV+7) }}}-->
+    <!--[[[end]]] (sum: kiaI77/BEa) }}}-->
     <p>Tests:</p>
     <!--[[[cog python(include_file("samples/test_simple.py")["/def test/,$"]) ]]] {{{ -->
     <pre class='python'>
