@@ -20,7 +20,9 @@ PNG_DIR = png
 
 clean:
 	rm -f *.pyc $(PX)
-	rm -rf __pycache__
+	rm -rf __pycache__ samples/__pycache__
+	rm -rf .*_cache samples/.*_cache
+	rm -rf .coverage .coverage.*
 	rm -rf $(PNG_DIR)
 	rm -f $(ZIP_FILE)
 
