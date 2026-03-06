@@ -307,11 +307,11 @@ os.environ["COLUMNS"] = "72"
                     .sub("%", "test_5", "test_non_blank")
             ),
             classes="s65 incremental",
-            hiwords=[r"1 \w+"],
+            hiwords=[r"-k \w+", r"1 \w+"],
         )
         ]]] -->
     <pre class='console incremental s65'>
-    $ pytest -k gettysburg
+    $ pytest <span class='hilite'>-k gettysburg</span>
     ========================= test session starts ==========================
     platform darwin -- Python 3.12.13, pytest-9.0.2, pluggy-1.6.0 -- /Users/nbatchelder/prz/goodies/.venv/bin/python3
     cachedir: .pytest_cache
@@ -322,7 +322,7 @@ os.environ["COLUMNS"] = "72"
 
     =================== <span class='hilite'>1 passed</span>, 12 deselected in 0.00s ===================
     </pre>
-    <!-- [[[end]]] (sum: 8JV1u04YY5) -->
+    <!-- [[[end]]] (sum: atZMT2BPds) -->
 </div>
 
 <div class="slide title" data-layout="clean">
