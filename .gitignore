@@ -5,4 +5,5 @@ png
 *.px
 !px_template.px
 *.zip
+*.pdf
 .coverage

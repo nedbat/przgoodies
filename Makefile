@@ -1,7 +1,6 @@
-SLUG = unified
-SLUG2 = paramfunc
+SLUG = paramfunc
 
-SLIDE_HTML = $(SLUG).html $(SLUG2).html
+SLIDE_HTML = $(SLUG).html
 ZIP_FILE = $(SLUG).zip
 
 SUPPORT = lineselect.js slides.js slides.css typogr.min.js
@@ -15,7 +14,7 @@ SAMPLES = $(wildcard samples/*)
 slides: $(SLIDE_HTML)
 
 extract:
-	sed -n -e '/^##: run/,/^## end/p' < paramfunc.html | bash
+	sed -n -e '/^##: run/,/^## end/p' < $(SLIDE_HTML) | bash
 
 $(SLIDE_HTML): $(SAMPLES) extract
 	python -m cogapp -c -r $@
@@ -37,8 +36,11 @@ test:
 	coverage run --branch -m pytest test_*.py samples/test_*.py
 	coverage report -m
 
-pngs:
+pngs: $(SLIDE_HTML)
 	phantomjs phantom-slippy-to-png.js $(SLIDE_HTML) $(PNG_DIR)/
+
+pdf: pngs
+	magick png/*.png $(SLUG).pdf
 
 PX = $(SLUG).px
 
