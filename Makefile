@@ -1,19 +1,23 @@
 SLUG = unified
+SLUG2 = paramfunc
 
-SLIDE_HTML = $(SLUG).html
+SLIDE_HTML = $(SLUG).html $(SLUG2).html
 ZIP_FILE = $(SLUG).zip
 
 SUPPORT = lineselect.js slides.js slides.css typogr.min.js
 IMAGES = *.jpg *.png
 VENDOR = slippy highlight
 
-.PHONY: $(SLIDE_HTML)
+.PHONY: $(SLIDE_HTML) extract slides
 
 SAMPLES = $(wildcard samples/*)
 
 slides: $(SLIDE_HTML)
 
-$(SLIDE_HTML): $(SAMPLES)
+extract:
+	sed -n -e '/^##: run/,/^## end/p' < paramfunc.html | bash
+
+$(SLIDE_HTML): $(SAMPLES) extract
 	python -m cogapp -c -r $@
 
 PNG_DIR = png

@@ -1,5 +1,6 @@
 # Helpers for cogging slides.
 
+import re
 import textwrap
 
 try:
@@ -27,7 +28,7 @@ def include_file_default(**kwargs):
     INCLUDE_FILE_DEFAULTS.update(kwargs)
 
 
-def code(text, lang=None, highlight=None, px=False, classes=""):
+def code(text, lang=None, highlight=None, px=False, classes="", hiwords=None):
     """Format text for a <pre> block."""
 
     text = textwrap.dedent(str(text))
@@ -58,11 +59,14 @@ def code(text, lang=None, highlight=None, px=False, classes=""):
 
         hilite_attr = " data-hilite='|{}|'".format("|".join(map(str, hilite)))
 
-    result = []
-    result.append(f"<pre{class_attr}{hilite_attr}>")
-    result.append(quote_html(text))
-    result.append("</pre>")
-    cog.outl("\n".join(result))
+    html = quote_html(text)
+    if hiwords:
+        for hiword in hiwords:
+            html = re.sub(hiword, "<span class='hilite'>\g<0></span>", html)
+
+    cog.outl(f"<pre{class_attr}{hilite_attr}>")
+    cog.outl(html)
+    cog.outl("</pre>")
 
 
 def prompt_session(input, command=False, prelude=""):

@@ -138,6 +138,10 @@ img.icon {
     font-family: Consolas, monaco, monospace;
 }
 
+.slide .mono {
+    font-family: Consolas, monaco, monospace;
+}
+
 .slide pre.clear {
     background: none;
 }
@@ -146,31 +150,31 @@ img.icon {
     background: none;
 }
 
-.slide pre.medium, .slide pre.s85 {
+.slide .medium, .slide .s85 {
     font-size: 85%;
 }
 
-.slide pre.small, .slide pre.s75 {
+.slide .small, .slide .s75 {
     font-size: 75%;
 }
 
-.slide pre.s65 {
+.slide .s65 {
     font-size: 65%;
 }
 
-.slide pre.tiny, .slide pre.s50 {
+.slide .tiny, .slide .s50 {
     font-size: 50%;
 }
 
-.slide pre.s40 {
+.slide .s40 {
     font-size: 40%;
 }
 
-.slide pre.micro, .slide pre.s30 {
+.slide .micro, .slide .s30 {
     font-size: 30%;
 }
 
-.slide pre.nano, .slide pre.s10 {
+.slide .nano, .slide .s10 {
     font-size: 10%;
 }
 
