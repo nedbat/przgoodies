@@ -96,11 +96,8 @@ os.environ["COLUMNS"] = "72"
 
 <div class="slide">
     <h1>Simple tests</h1>
-    <!-- [[[cog python(include_file("test_1.py")) ]]] -->
+    <!-- [[[cog python(include_file("test_1.py")["/@/;$"]) ]]] -->
     <pre class='python'>
-    import pytest
-    from non_blanks import non_blanks
-
     @pytest.mark.parametrize(
         "text, short, long",
         [
@@ -117,7 +114,7 @@ os.environ["COLUMNS"] = "72"
     def test_non_blanks(text, short, long):
         assert non_blanks(text) == (short, long)
     </pre>
-    <!-- [[[end]]] (sum: NS+72xgsqT) -->
+    <!-- [[[end]]] (sum: V8ZBXhpL9l) -->
 </div>
 
 <div class="slide">
@@ -227,9 +224,9 @@ os.environ["COLUMNS"] = "72"
     test_non_blank.py::test_non_blanks<span style='color: #800'>[A long line\nThe next line is blank:\n\nShort.\nMuch much longer line, more than anyone thought.\n-6-48]</span> PASSED
     </p>
     <p class='text mono s65 incremental' style='color: #888'>
-    test_non_blank.py::test_non_blanks<span style='color: #F00'>[Four score and seven years ago our fathers brought forth on this continent, a\nnew nation, conceived in Liberty, and dedicated to the proposition that all men\nare created equal.\n\nNow we are engaged in a great civil war, testing whether that nation, or any\nnation so conceived and so dedicated, can long endure. We are met on a great\nbattle-field of that war. We have come to dedicate a portion of that field, as a\nfinal resting place for those who here gave their lives that that nation might\nlive. It is altogether fitting and proper that we should do this.\n\nBut, in a larger sense, we can not dedicate \u2013 we can not consecrate we can not\nhallow \u2013 this ground. The brave men, living and dead, who struggled here, have\nconsecrated it far above our poor power to add or detract. The world will little\nnote, nor long remember what we say here, but it can never forget what they did\nhere. It is for us the living, rather, to be dedicated here to the unfinished\nwork which they who fought here have thus far so nobly advanced. It is rather\nfor us to be here dedicated to the great task remaining before us that from\nthese honored dead we take increased devotion to that cause for which they gave\nthe last full measure of devotion \u2013 that we here highly resolve that these dead\nshall not have died in vain that this nation, under God, shall have a new birth\nof freedom \u2013 and that government of the people, by the people, for the people,\nshall not perish from the earth.\n-18-80]</span> PASSED
+    test_non_blank.py::test_non_blanks<span style='color: #F00'>[Four score and seven years ago our fathers brought forth on this continent, a\nnew nation, conceived in Liberty, and dedicated to the proposition that all men\nare created equal.\n\nNow we are engaged in a great civil war, testing whether that nation, or any\nnation so conceived and so dedicated, can long endure. We are met on a great\nbattle-field of that war. We have come to dedicate a portion of that field, as a\nfinal resting place for those who here gave their lives that that nation might\nlive. It is altogether fitting and proper that we should do this.\n\nBut, in a larger sense, we can not dedicate \u2014 we can not consecrate we can not\nhallow \u2014 this ground. The brave men, living and dead, who struggled here, have\nconsecrated it far above our poor power to add or detract. The world will little\nnote, nor long remember what we say here, but it can never forget what they did\nhere. It is for us the living, rather, to be dedicated here to the unfinished\nwork which they who fought here have thus far so nobly advanced. It is rather\nfor us to be here dedicated to the great task remaining before us that from\nthese honored dead we take increased devotion to that cause for which they gave\nthe last full measure of devotion \u2013 that we here highly resolve that these dead\nshall not have died in vain that this nation, under God, shall have a new birth\nof freedom \u2014 and that government of the people, by the people, for the people,\nshall not perish from the earth.\n-18-80]</span> PASSED
     </p>
-    <!-- [[[end]]] (sum: SRTIs8qa1n) -->
+    <!-- [[[end]]] (sum: yszFh6e0C5) -->
 </div>
 
 <div class="slide">
@@ -287,42 +284,53 @@ os.environ["COLUMNS"] = "72"
 <div class="slide">
     <h1>Nice IDs</h1>
     <!-- [[[cog
-        python(include_file("pytest.out")[r"g/test_5/"]
-            .sub("%", "test_5", "test_non_blank")
-            .sub("%", "PASSED.*", "PASSED")
+        python(
+            include_file("pytest.out")[r"g/test_5/"]
+                .sub("%", "test_5", "test_non_blank")
+                .sub("%", "PASSED.*", "PASSED"),
+            hiwords=[r'\[[.\w]+\]'],
         )
         ]]] -->
     <pre class='python'>
-    test_non_blank.py::test_non_blanks[little] PASSED
-    test_non_blank.py::test_non_blanks[four] PASSED
-    test_non_blank.py::test_non_blanks[gettysburg.txt] PASSED
+    test_non_blank.py::test_non_blanks<span class='hilite'>[little]</span> PASSED
+    test_non_blank.py::test_non_blanks<span class='hilite'>[four]</span> PASSED
+    test_non_blank.py::test_non_blanks<span class='hilite'>[gettysburg.txt]</span> PASSED
     </pre>
-    <!-- [[[end]]] (sum: pZOn8rQT+h) -->
+    <!-- [[[end]]] (sum: v7dl0S+p8q) -->
     <p class="incremental">Use IDs to select tests:</p>
     <!-- [[[cog
         console(
-            "$ pytest -k gettysburg\n" + 
+            "$ pytest -k burg\n" + 
             str(
                 include_file("pytest_gettysburg.out")
                     .sub("%", "test_5", "test_non_blank")
             ),
             classes="s65 incremental",
-            hiwords=[r"-k \w+", r"1 \w+"],
+            hiwords=[r"-k \w+", r"1 \w+", "burg"],
         )
         ]]] -->
     <pre class='console incremental s65'>
-    $ pytest <span class='hilite'>-k gettysburg</span>
+    $ pytest <span class='hilite'>-k <span class='hilite'>burg</span></span>
     ========================= test session starts ==========================
-    platform darwin -- Python 3.12.13, pytest-9.0.2, pluggy-1.6.0 -- /Users/nbatchelder/prz/goodies/.venv/bin/python3
+    platform darwin -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /Users/ned/prz/goodies/.venv/bin/python3
     cachedir: .pytest_cache
     rootdir: /private/tmp/work
     collecting ... collected 13 items / 12 deselected / <span class='hilite'>1 selected</span>
 
-    test_non_blank.py::test_non_blanks[gettysburg.txt] PASSED                [100%]
+    test_non_blank.py::test_non_blanks[gettys<span class='hilite'>burg</span>.txt] PASSED                [100%]
 
-    =================== <span class='hilite'>1 passed</span>, 12 deselected in 0.00s ===================
+    =================== <span class='hilite'>1 passed</span>, 12 deselected in 0.01s ===================
     </pre>
-    <!-- [[[end]]] (sum: atZMT2BPds) -->
+    <!-- [[[end]]] (sum: kpli6R9wCb) -->
+</div>
+
+<div class="slide">
+    <h1>Testing can be nicer</h1>
+    <ul>
+        <li>Real engineering</li>
+        <li>More readable</li>
+        <li>Happier engineers</li>
+    </ul>
 </div>
 
 <div class="slide title" data-layout="clean">
@@ -410,8 +418,8 @@ battle-field of that war. We have come to dedicate a portion of that field, as a
 final resting place for those who here gave their lives that that nation might
 live. It is altogether fitting and proper that we should do this.
 
-But, in a larger sense, we can not dedicate – we can not consecrate we can not
-hallow – this ground. The brave men, living and dead, who struggled here, have
+But, in a larger sense, we can not dedicate — we can not consecrate we can not
+hallow — this ground. The brave men, living and dead, who struggled here, have
 consecrated it far above our poor power to add or detract. The world will little
 note, nor long remember what we say here, but it can never forget what they did
 here. It is for us the living, rather, to be dedicated here to the unfinished
@@ -420,7 +428,7 @@ for us to be here dedicated to the great task remaining before us that from
 these honored dead we take increased devotion to that cause for which they gave
 the last full measure of devotion – that we here highly resolve that these dead
 shall not have died in vain that this nation, under God, shall have a new birth
-of freedom – and that government of the people, by the people, for the people,
+of freedom — and that government of the people, by the people, for the people,
 shall not perish from the earth.
 ## end
 
@@ -543,9 +551,8 @@ done
 
 cd /tmp/work
 python3 -m pytest -v | tee pytest.out
-python3 -m pytest -v -k gettysburg | tee pytest_gettysburg.out
+python3 -m pytest -v -k burg | tee pytest_gettysburg.out
 cd -
-cog -crP $POST
 
 ## end
 -->

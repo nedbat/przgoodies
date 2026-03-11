@@ -62,7 +62,7 @@ def code(text, lang=None, highlight=None, px=False, classes="", hiwords=None):
     html = quote_html(text)
     if hiwords:
         for hiword in hiwords:
-            html = re.sub(hiword, "<span class='hilite'>\g<0></span>", html)
+            html = re.sub(hiword, r"<span class='hilite'>\g<0></span>", html)
 
     cog.outl(f"<pre{class_attr}{hilite_attr}>")
     cog.outl(html)
