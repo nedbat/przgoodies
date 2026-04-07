@@ -1,0 +1,140 @@
+<!DOCTYPE html> <!-- vim: set foldmethod=marker foldlevel=0 cc=60 :-->
+<!--
+Process this file with cog:
+
+    $ pip install -r requirements.txt
+    $ python -m cogapp -c -r april.html
+
+-->
+<html>
+<!-- *** Head stuff {{{ -->
+<!--[[[cog
+
+import functools
+import os
+import re
+
+import cog
+from cogutil import code, include_file, prompt_session
+
+APRIL_PY = "".join(l for l in open("samples/april.py") if l.strip()) + "\n\n"
+
+python = functools.partial(code, lang="python", classes="medium")
+
+def prompt(code, classes=""):
+    prompt_session(code, classes="pycon medium " + classes, prelude=APRIL_PY)
+
+]]]-->
+<!--[[[end]]] (sum: 1B2M2Y8Asg)-->
+<head>
+    <title>April Foolishness</title>
+    <meta charset="utf-8" />
+
+    <!-- *** Includes {{{ -->
+    <!-- Slippy core file and dependencies -->
+    <script type="text/javascript" src="slippy/jquery.min.js"></script>
+    <script type="text/javascript" src="slippy/jquery.history.js"></script>
+    <script type="text/javascript" src="slippy/slippy.js"></script>
+    <script type="text/javascript" src="typogr.min.js"></script>
+
+    <!-- Slippy structural styles -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy.css"/>
+    <!-- Slippy theme -->
+    <link type="text/css" rel="stylesheet" href="slippy/slippy-pure.css"/>
+    <!-- Our styles -->
+    <link type="text/css" rel="stylesheet" href="slides.css"/>
+
+    <!-- Highlight, for syntax coloring. -->
+    <script type="text/javascript" src="highlight/highlight.pack.js"></script>
+    <link rel="stylesheet" href="highlight/vs.css">
+
+    <script type="text/javascript" src="lineselect.js"></script>
+
+    <!-- http://html.adobe.com/edge/webfonts/ -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- }}} -->
+
+    <script type="text/javascript" src="slides.js"></script>
+    <!-- }}} -->
+
+    <!-- *** Custom style for this deck {{{ -->
+    <style type="text/css">
+    </style>
+    <!-- }}} -->
+
+</head>
+<!-- }}} -->
+<body class="slides">
+
+<div class="slide title" data-layout="clean">
+    <h1>April Foolishness</h1>
+    <h2>
+        Ned Batchelder<br/>
+        <a class="implicit" href="https://nedbat.com">@nedbat</a>
+    </h2>
+</div>
+
+<div class="slide">
+    <h1>Python is expressive!</h1>
+    <ul>
+    <li class="incremental">Some things shouldn't be expressed</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>One-dimensional Pong</h1>
+    <!-- [[[cog python(include_file("samples/april.py")["/@dataclass/;/__repr__/+1"]) ]]] -->
+    <pre class='medium python'>
+    @dataclass
+    class Ball:
+        x: int
+
+        def __repr__(self):
+            return "├" + "─"*self.x + "⌾" + "─"*(50-self.x) + "┤"
+    </pre>
+    <!-- [[[end]]] (sum: C+Zih86KoX) -->
+    <!--[[[cog prompt("b = Ball(10)\nb", classes="incremental") ]]]-->
+    <pre class='incremental medium pycon'>
+    &gt;&gt;&gt; b = Ball(10)
+    &gt;&gt;&gt; b
+    ├──────────⌾────────────────────────────────────────┤
+    </pre>
+    <!--[[[end]]] (sum: 2gcp2xBZuq) -->
+    <!--[[[cog prompt("b.x = 20\nb", classes="incremental") ]]]-->
+    <pre class='incremental medium pycon'>
+    &gt;&gt;&gt; b.x = 20
+    Traceback (most recent call last):
+      File "&lt;console&gt;", line 1, in &lt;module&gt;
+    NameError: name 'b' is not defined
+    &gt;&gt;&gt; b
+    Traceback (most recent call last):
+      File "&lt;console&gt;", line 1, in &lt;module&gt;
+    NameError: name 'b' is not defined
+    </pre>
+    <!--[[[end]]] (sum: 0lIkrG+HIr) -->
+</div>
+
+<div class="slide title" data-layout="clean">
+    <h1 style="padding-top: 0em">Questions?</h1>
+    <h2 style="margin-top: 5em">
+        <a class="implicit" href="https://nedbat.com">@nedbat</a>
+    </h2>
+</div>
+
+
+<!-- ** Layouts {{{ -->
+<div class="layout" data-name="default">
+    <content></content>
+    <div class="footer">
+        <span class="right"><a class="implicit" href="https://nedbat.com"><span class='punct'>@</span>nedbat</a></span>
+        <hr class="defloat" />
+    </div>
+</div>
+
+<div class="layout nofooter" data-name="clean">
+    <content></content>
+</div>
+<!-- }}} -->
+
+</body>
+</html>

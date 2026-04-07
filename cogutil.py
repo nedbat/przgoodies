@@ -69,7 +69,7 @@ def code(text, lang=None, highlight=None, px=False, classes="", hiwords=None):
     cog.outl("</pre>")
 
 
-def prompt_session(input, command=False, prelude=""):
+def prompt_session(input, command=False, prelude="", classes=""):
     output = ""
     if command:
         output += "$ python\n"
@@ -77,7 +77,12 @@ def prompt_session(input, command=False, prelude=""):
     # REPL sessions have lone triple-dot lines. Suppress them.
     repl_out = "\n".join("" if l == "... " else l for l in repl_out.splitlines())
     output += repl_out
-    code(output, lang="python", classes="console " + INCLUDE_FILE_DEFAULTS["classes"])
+    if classes:
+        lang = None
+    else:
+        classes = "console " + INCLUDE_FILE_DEFAULTS["classes"]
+        lang = "python"
+    code(output, lang=lang, classes=classes)
 
 
 def include_file(filename: str) -> EdText:
