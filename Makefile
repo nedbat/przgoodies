@@ -19,6 +19,12 @@ extract:
 $(SLIDE_HTML): $(SAMPLES) extract
 	python -m cogapp -c -r $@
 
+.PHONY: april
+
+april: make_april.py
+	python make_april.py > april_out.txt
+	python -m cogapp -c -r april.html
+
 PNG_DIR = png
 
 clean:

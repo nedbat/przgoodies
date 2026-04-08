@@ -7,3 +7,4 @@ png
 *.zip
 *.pdf
 .coverage
+april_out.txt

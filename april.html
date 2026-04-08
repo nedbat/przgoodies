@@ -15,14 +15,10 @@ import os
 import re
 
 import cog
-from cogutil import code, include_file, prompt_session
-
-APRIL_PY = "".join(l for l in open("samples/april.py") if l.strip()) + "\n\n"
+from cogutil import code, include_file
 
 python = functools.partial(code, lang="python", classes="medium")
-
-def prompt(code, classes=""):
-    prompt_session(code, classes="pycon medium " + classes, prelude=APRIL_PY)
+repl = functools.partial(code, lang="pycon", classes="medium")
 
 ]]]-->
 <!--[[[end]]] (sum: 1B2M2Y8Asg)-->
@@ -77,13 +73,164 @@ def prompt(code, classes=""):
 <div class="slide">
     <h1>Python is expressive!</h1>
     <ul>
-    <li class="incremental">Some things shouldn't be expressed</li>
+    <li class="incremental">Some things shouldn't be expressed...</li>
     </ul>
 </div>
 
 <div class="slide">
     <h1>One-dimensional Pong</h1>
-    <!-- [[[cog python(include_file("samples/april.py")["/@dataclass/;/__repr__/+1"]) ]]] -->
+    <div class="overlay-container" style="height:7em">
+        <div class="overlay">
+            <!-- [[[cog python(include_file("make_april.py")["/@dataclass/;/x:/"]) ]]] -->
+            <pre class='medium python'>
+            @dataclass
+            class Ball:
+                x: int
+            </pre>
+            <!-- [[[end]]] (sum: 8pcwDWiRtp) -->
+        </div>
+        <div class="overlay incremental">
+            <!-- [[[cog python(include_file("make_april.py")["/@dataclass/;/__repr__/+1"]) ]]] -->
+            <pre class='medium python'>
+            @dataclass
+            class Ball:
+                x: int
+
+                def __repr__(self):
+                    return "├" + "─"*self.x + "⌾" + "─"*(50-self.x) + "┤"
+            </pre>
+            <!-- [[[end]]] (sum: U57CSnWmuo) -->
+        </div>
+    </div>
+    <div>
+        <!-- [[[cog repl(include_file("april_out.txt")["/# one/+1;/^$/-1"], classes="incremental") ]]]-->
+        <pre class='incremental pycon'>
+        &gt;&gt;&gt; b = Ball(10)
+        &gt;&gt;&gt; b
+        ├──────────⌾────────────────────────────────────────┤
+        </pre>
+        <!-- [[[end]]] (sum: PKrJHxo0pB) -->
+        <!-- [[[cog repl(include_file("april_out.txt")["/# two/+1;/^$/-1"], classes="incremental") ]]]-->
+        <pre class='incremental pycon'>
+        &gt;&gt;&gt; b.x = 20
+        &gt;&gt;&gt; b
+        ├────────────────────⌾──────────────────────────────┤
+        </pre>
+        <!--[[[end]]] (sum: JLOinq7yzK) -->
+    </div>
+</div>
+
+<div class="slide">
+    <h1>Attribute assignment is boring!</h1>
+    <ul>
+    <li class="incremental">Operator overloading</li>
+    <li class="incremental">x + y: &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;<tt>x.__add__(y)</tt></li>
+    <li class="incremental">__sub__, __mul__, etc</li>
+    <li class="incremental">Path("here") / "there"</li>
+    <li class="incremental">Path("here").__div__("there")</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>@ operator</h1>
+    <!-- [[[cog python(include_file("make_april.py")["/__matmul__/;/^$/-1"], classes="incremental") ]]] -->
+    <pre class='incremental python'>
+    def __matmul__(self, num):
+        # obj @ num
+        self.x = num
+    </pre>
+    <!-- [[[end]]] (sum: +dhu7luby1) -->
+    <div class="overlay-container" style="margin-top: 1em">
+        <div class="overlay">
+            <!-- [[[cog repl(include_file("april_out.txt")["/# three/+1;+2"], classes="incremental") ]]]-->
+            <pre class='incremental pycon'>
+            &gt;&gt;&gt; b = Ball(45)
+            &gt;&gt;&gt; b
+            ├─────────────────────────────────────────────⌾─────┤
+            </pre>
+            <!-- [[[end]]] (sum: SQUXAThA6y) -->
+        </div>
+        <div class="overlay">
+            <!-- [[[cog repl(include_file("april_out.txt")["/# three/+1;+6"], classes="incremental") ]]]-->
+            <pre class='incremental pycon'>
+            &gt;&gt;&gt; b = Ball(45)
+            &gt;&gt;&gt; b
+            ├─────────────────────────────────────────────⌾─────┤
+
+            &gt;&gt;&gt; b @ 5
+            &gt;&gt;&gt; b
+            ├─────⌾─────────────────────────────────────────────┤
+            </pre>
+            <!-- [[[end]]] (sum: p0FWwuzfKX) -->
+        </div>
+        <div class="overlay">
+            <!-- [[[cog repl(include_file("april_out.txt")["/# three/+1;/###/-1"], classes="incremental") ]]]-->
+            <pre class='incremental pycon'>
+            &gt;&gt;&gt; b = Ball(45)
+            &gt;&gt;&gt; b
+            ├─────────────────────────────────────────────⌾─────┤
+
+            &gt;&gt;&gt; b @ 5
+            &gt;&gt;&gt; b
+            ├─────⌾─────────────────────────────────────────────┤
+
+            &gt;&gt;&gt; b @ 30
+            &gt;&gt;&gt; b
+            ├──────────────────────────────⌾────────────────────┤
+            </pre>
+            <!-- [[[end]]] (sum: 6+ogr0Gve6) -->
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <h1>Scooching</h1>
+    <!-- [[[cog python(include_file("make_april.py")["/__rshift__/;+6"], classes="incremental") ]]] -->
+    <pre class='incremental python'>
+    def __rshift__(self, num):
+        # obj &gt;&gt; num
+        self.x += num
+
+    def __lshift__(self, num):
+        # obj &lt;&lt; num
+        self.x -= num
+    </pre>
+    <!-- [[[end]]] (sum: meYbIQZeUE) -->
+    <!-- [[[cog repl(include_file("april_out.txt")["/# four/+1;/^$/-1"], classes="incremental") ]]]-->
+    <pre class='incremental pycon'>
+    &gt;&gt;&gt; b = Ball(10)
+    &gt;&gt;&gt; b &gt;&gt; 15
+    &gt;&gt;&gt; b
+    ├─────────────────────────⌾─────────────────────────┤
+    </pre>
+    <!-- [[[end]]] (sum: +wsxfcTt6f) -->
+</div>
+
+<div class="slide">
+    <h1>More</h1>
+    <!-- [[[cog repl(include_file("april_out.txt")["/# five/+1;/^$/-1"], classes="incremental") ]]]-->
+    <pre class='incremental pycon'>
+    &gt;&gt;&gt; b = Ball(45)
+    &gt;&gt;&gt; for dx in range(9):
+    ...     b &lt;&lt; dx
+    ...     print(b)
+    ...
+    ├─────────────────────────────────────────────⌾─────┤
+    ├────────────────────────────────────────────⌾──────┤
+    ├──────────────────────────────────────────⌾────────┤
+    ├───────────────────────────────────────⌾───────────┤
+    ├───────────────────────────────────⌾───────────────┤
+    ├──────────────────────────────⌾────────────────────┤
+    ├────────────────────────⌾──────────────────────────┤
+    ├─────────────────⌾─────────────────────────────────┤
+    ├─────────⌾─────────────────────────────────────────┤
+    </pre>
+    <!-- [[[end]]] (sum: EzpOvYQzha) -->
+</div>
+
+<div class="slide">
+    <h1>This is a Bad Idea</h1>
+    <!-- [[[cog python(include_file("make_april.py")["/@dataclass/;/-= num/"]) ]]] -->
     <pre class='medium python'>
     @dataclass
     class Ball:
@@ -91,34 +238,24 @@ def prompt(code, classes=""):
 
         def __repr__(self):
             return "├" + "─"*self.x + "⌾" + "─"*(50-self.x) + "┤"
+
+        def __matmul__(self, num):
+            # obj @ num
+            self.x = num
+
+        def __rshift__(self, num):
+            # obj &gt;&gt; num
+            self.x += num
+
+        def __lshift__(self, num):
+            # obj &lt;&lt; num
+            self.x -= num
     </pre>
-    <!-- [[[end]]] (sum: C+Zih86KoX) -->
-    <!--[[[cog prompt("b = Ball(10)\nb", classes="incremental") ]]]-->
-    <pre class='incremental medium pycon'>
-    &gt;&gt;&gt; b = Ball(10)
-    &gt;&gt;&gt; b
-    ├──────────⌾────────────────────────────────────────┤
-    </pre>
-    <!--[[[end]]] (sum: 2gcp2xBZuq) -->
-    <!--[[[cog prompt("b.x = 20\nb", classes="incremental") ]]]-->
-    <pre class='incremental medium pycon'>
-    &gt;&gt;&gt; b.x = 20
-    Traceback (most recent call last):
-      File "&lt;console&gt;", line 1, in &lt;module&gt;
-    NameError: name 'b' is not defined
-    &gt;&gt;&gt; b
-    Traceback (most recent call last):
-      File "&lt;console&gt;", line 1, in &lt;module&gt;
-    NameError: name 'b' is not defined
-    </pre>
-    <!--[[[end]]] (sum: 0lIkrG+HIr) -->
+    <!-- [[[end]]] (sum: vNS6ra09Sd) -->
 </div>
 
 <div class="slide title" data-layout="clean">
     <h1 style="padding-top: 0em">Questions?</h1>
-    <h2 style="margin-top: 5em">
-        <a class="implicit" href="https://nedbat.com">@nedbat</a>
-    </h2>
 </div>
 
 

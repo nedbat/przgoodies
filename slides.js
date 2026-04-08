@@ -64,6 +64,7 @@ $(function() {
 
     // Highlight the code in <pre> blocks.
     hljs.configure({
+        languages: [],      // don't auto-detect language
         tabReplace: '    ', // 4 spaces
         classPrefix: ''     // don't append class prefix
     });

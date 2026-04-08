@@ -6,8 +6,8 @@ import sys
 import textwrap
 
 class CagedPrompt(code.InteractiveConsole):
-    def __init__(self):
-        env = {'__name__': '__main__'}
+    def __init__(self, globals=None):
+        env = {'__name__': '__main__', **(globals or {})}
         code.InteractiveConsole.__init__(self, env)
 
     def run(self, input, banner=True):
@@ -37,9 +37,9 @@ class CagedPrompt(code.InteractiveConsole):
     def write(self, data):
         self.out.write(data)
 
-def prompt_session(input, banner=True, prelude=""):
+def prompt_session(input, banner=True, prelude="", globals=None):
     assert not (banner and prelude)
-    cp = CagedPrompt()
+    cp = CagedPrompt(globals=globals)
     if prelude:
         cp.run(prelude, banner=False)
     cp.run(input, banner=banner)
@@ -56,6 +56,9 @@ if __name__ == '__main__':
 
         f = Foo()
         f
+        x + 12
         """
 
-    print(prompt_session(TEST_INPUT))
+    g = {}
+    exec("x = 17", globals=g)
+    print(prompt_session(TEST_INPUT, globals=g))

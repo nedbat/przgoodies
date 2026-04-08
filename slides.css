@@ -113,6 +113,10 @@ img.icon {
     font-size: 150%;
 }
 
+.slide .overlay pre {
+    margin-top: 0;
+}
+
 .slide pre {
     font-family: Consolas, monaco, monospace;
     margin-top: 1em;
