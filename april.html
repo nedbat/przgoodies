@@ -123,16 +123,16 @@ repl = functools.partial(code, lang="pycon", classes="medium")
 <div class="slide">
     <h1>Attribute assignment is boring!</h1>
     <ul>
-    <li class="incremental">Operator overloading</li>
+    <li class="incremental">Operator overloading is fun</li>
     <li class="incremental">x + y: &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;<tt>x.__add__(y)</tt></li>
     <li class="incremental">__sub__, __mul__, etc</li>
-    <li class="incremental">Path("here") / "there"</li>
-    <li class="incremental">Path("here").__div__("there")</li>
+    <li class="incremental">Path("dirname") / "file.txt"</li>
+    <li class="incremental">Path("dirname").__div__("file.txt")</li>
     </ul>
 </div>
 
 <div class="slide">
-    <h1>@ operator</h1>
+    <h1>@ operator: __matmul__</h1>
     <!-- [[[cog python(include_file("make_april.py")["/__matmul__/;/^$/-1"], classes="incremental") ]]] -->
     <pre class='incremental python'>
     def __matmul__(self, num):
